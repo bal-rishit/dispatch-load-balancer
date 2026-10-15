@@ -146,6 +146,21 @@ Example response:
           "priority": "HIGH"
         }
       ]
+    },
+    {
+      "vehicleId": "VEH002",
+      "totalLoad": 20,
+      "totalDistance": "0.1 km",
+      "assignedOrders": [
+        {
+          "orderId": "ORD002",
+          "latitude": 12.936,
+          "longitude": 77.625,
+          "address": "Koramangala 5th Block",
+          "packageWeight": 20,
+          "priority": "LOW"
+        }
+      ]
     }
   ],
   "unassignedOrders": []

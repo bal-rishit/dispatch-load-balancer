@@ -32,5 +32,9 @@ public class DispatchController {
         return ResponseEntity.ok(new ApiResponse("Vehicles details accepted.", "success"));
     }
 
+    @GetMapping("/plan")
+    public ResponseEntity<DispatchPlanResponse> getDispatchPlan() {
+        return ResponseEntity.ok(dispatchPlanningService.generatePlan());
+    }
 
 }

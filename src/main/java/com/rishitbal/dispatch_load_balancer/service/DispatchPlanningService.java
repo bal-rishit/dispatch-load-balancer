@@ -26,12 +26,15 @@ public class DispatchPlanningService {
 
         validateDispatchData(orders, vehicles);
 
+        // Runs actual logic to allocate orders and vehicles
         DispatchAllocator.AllocationResult allocationResult =
                 dispatchAllocator.allocate(orders, vehicles);
 
+        // Converts results into API Response DTO
         return dispatchPlanMapper.toResponse(allocationResult);
     }
 
+    // Ensures both vehicles and orders data are present before attempting to allocate
     private void validateDispatchData(
             List<DeliveryOrder> orders,
             List<Vehicle> vehicles

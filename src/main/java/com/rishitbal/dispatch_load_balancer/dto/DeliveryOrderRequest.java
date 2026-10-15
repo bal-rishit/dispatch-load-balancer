@@ -3,6 +3,8 @@ package com.rishitbal.dispatch_load_balancer.dto;
 import com.rishitbal.dispatch_load_balancer.domain.Priority;
 import jakarta.validation.constraints.*;
 
+
+// Request body format of order
 public record DeliveryOrderRequest(
 
         @NotBlank(message = "orderId is required")

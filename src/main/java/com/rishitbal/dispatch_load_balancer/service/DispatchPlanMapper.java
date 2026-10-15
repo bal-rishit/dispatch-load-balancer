@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Locale;
 
+// Used to convert allocation results into API Response DTO
 @Component
 public class DispatchPlanMapper {
 

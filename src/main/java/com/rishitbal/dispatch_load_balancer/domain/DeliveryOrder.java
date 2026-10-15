@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
+// Delivery order schema
 @Entity
 @Table(name = "delivery_orders")
 @Getter

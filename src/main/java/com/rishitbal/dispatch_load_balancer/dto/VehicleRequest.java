@@ -2,6 +2,7 @@ package com.rishitbal.dispatch_load_balancer.dto;
 
 import jakarta.validation.constraints.*;
 
+// Request body format of vehicle
 public record VehicleRequest(
         @NotBlank(message = "vehicleId is required")
         String vehicleId,

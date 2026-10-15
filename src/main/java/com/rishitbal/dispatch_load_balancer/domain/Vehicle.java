@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
+// vehicle schema
 @Entity
 @Table(name = "vehicles")
 @Getter

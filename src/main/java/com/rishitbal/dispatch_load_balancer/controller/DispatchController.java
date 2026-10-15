@@ -37,4 +37,14 @@ public class DispatchController {
         return ResponseEntity.ok(dispatchPlanningService.generatePlan());
     }
 
+
+// Extra endpoint to clear repositories. Used for convenience while repeated API Testing
+//    @DeleteMapping("/clear")
+//    public ResponseEntity<ApiResponse> clearRepositories(){
+//        dispatchDataService.clearRepositories();
+//
+//        return ResponseEntity.ok(new ApiResponse("Both repositories cleared", "success"));
+//    }
+
+
 }

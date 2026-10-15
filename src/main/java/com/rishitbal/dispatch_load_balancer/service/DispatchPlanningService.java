@@ -3,6 +3,7 @@ package com.rishitbal.dispatch_load_balancer.service;
 import com.rishitbal.dispatch_load_balancer.domain.DeliveryOrder;
 import com.rishitbal.dispatch_load_balancer.domain.Priority;
 import com.rishitbal.dispatch_load_balancer.domain.Vehicle;
+import com.rishitbal.dispatch_load_balancer.exception.DispatchDataUnavailableException;
 import com.rishitbal.dispatch_load_balancer.repository.DeliveryOrderRepository;
 import com.rishitbal.dispatch_load_balancer.repository.VehicleRepository;
 import lombok.RequiredArgsConstructor;
@@ -167,9 +168,11 @@ public class DispatchPlanningService {
 
     public DispatchPlanResponse generatePlan() {
         List<DeliveryOrder> orders = deliveryOrderRepository.findAll();
+        List<Vehicle> vehicles = vehicleRepository.findAll();
 
-        List<VehicleState> vehicleStates = vehicleRepository.findAll()
-                .stream()
+        validateDispatchData(orders, vehicles);
+
+        List<VehicleState> vehicleStates = vehicles.stream()
                 .map(VehicleState::new)
                 .toList();
 
@@ -198,6 +201,30 @@ public class DispatchPlanningService {
 
         return buildPlanResponse(vehicleStates, unassignedOrders);
     }
+
+    private void validateDispatchData(
+            List<DeliveryOrder> orders,
+            List<Vehicle> vehicles
+    ) {
+        if (vehicles.isEmpty() && orders.isEmpty()) {
+            throw new DispatchDataUnavailableException(
+                    "No vehicles or delivery orders are available to generate a dispatch plan."
+            );
+        }
+
+        if (vehicles.isEmpty()) {
+            throw new DispatchDataUnavailableException(
+                    "No vehicles are available to generate a dispatch plan."
+            );
+        }
+
+        if (orders.isEmpty()) {
+            throw new DispatchDataUnavailableException(
+                    "No delivery orders are available to generate a dispatch plan."
+            );
+        }
+    }
+
 
     private DispatchPlanResponse buildPlanResponse(
             List<VehicleState> vehicleStates,

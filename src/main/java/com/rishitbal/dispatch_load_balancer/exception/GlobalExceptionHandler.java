@@ -1,6 +1,8 @@
 package com.rishitbal.dispatch_load_balancer.exception;
 
+import com.rishitbal.dispatch_load_balancer.dto.ApiResponse;
 import com.rishitbal.dispatch_load_balancer.dto.ValidationErrorResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -40,6 +42,18 @@ public class GlobalExceptionHandler {
         );
 
         return ResponseEntity.badRequest().body(response);
+    }
+
+    @ExceptionHandler(DispatchDataUnavailableException.class)
+    public ResponseEntity<ApiResponse> handleDispatchDataUnavailable(
+            DispatchDataUnavailableException exception
+    ) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(new ApiResponse(
+                        exception.getMessage(),
+                        "error"
+                ));
     }
 
 

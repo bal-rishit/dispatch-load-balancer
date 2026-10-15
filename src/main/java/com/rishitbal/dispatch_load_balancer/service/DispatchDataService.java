@@ -60,5 +60,13 @@ public class DispatchDataService {
         }
     }
 
+    // Extra function to clear repositories. Used for convenience while repeated API Testing
+//    @Transactional
+//    public void clearRepositories(){
+//        deliveryOrderRepository.deleteAll();
+//        vehicleRepository.deleteAll();
+//    }
+
+
 
 }

@@ -5,6 +5,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.rishitbal.dispatch_load_balancer.domain.DeliveryOrder;
+import com.rishitbal.dispatch_load_balancer.domain.Priority;
+import com.rishitbal.dispatch_load_balancer.domain.Vehicle;
 import com.rishitbal.dispatch_load_balancer.repository.DeliveryOrderRepository;
 import com.rishitbal.dispatch_load_balancer.repository.VehicleRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -135,6 +138,53 @@ class DispatchControllerIntegrationTest {
                 .andExpect(jsonPath("$.message")
                         .value("request body is malformed."))
                 .andExpect(jsonPath("$.errors.request").exists());
+    }
+
+    @Test
+    void rejectsPlanGenerationWhenNoVehiclesOrOrdersExist() throws Exception {
+        mockMvc.perform(get("/api/dispatch/plan"))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.status").value("error"))
+                .andExpect(jsonPath("$.message").value(
+                        "No vehicles or delivery orders are available to generate a dispatch plan."
+                ));
+    }
+
+    @Test
+    void rejectsPlanGenerationWhenNoVehiclesExist() throws Exception {
+        deliveryOrderRepository.save(new DeliveryOrder(
+                "ORD001",
+                12.9716,
+                77.5946,
+                "MG Road, Bengaluru",
+                10,
+                Priority.HIGH
+        ));
+
+        mockMvc.perform(get("/api/dispatch/plan"))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.status").value("error"))
+                .andExpect(jsonPath("$.message").value(
+                        "No vehicles are available to generate a dispatch plan."
+                ));
+    }
+
+    @Test
+    void rejectsPlanGenerationWhenNoOrdersExist() throws Exception {
+        vehicleRepository.save(new Vehicle(
+                "VEH001",
+                100,
+                12.9716,
+                77.5946,
+                "Bengaluru"
+        ));
+
+        mockMvc.perform(get("/api/dispatch/plan"))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.status").value("error"))
+                .andExpect(jsonPath("$.message").value(
+                        "No delivery orders are available to generate a dispatch plan."
+                ));
     }
 
 }

@@ -33,7 +33,8 @@ class DispatchPlanningServiceTest {
         dispatchPlanningService = new DispatchPlanningService(
                 deliveryOrderRepository,
                 vehicleRepository,
-                new DistanceCalculator()
+                new DispatchAllocator(new DistanceCalculator()),
+                new DispatchPlanMapper()
         );
     }
 
